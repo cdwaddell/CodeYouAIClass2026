@@ -1,9 +1,8 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from langchain.agents import AgentExecutor, create_openai_functions_agent
-from langchain.tools import Tool
-from langchain import hub
+from langchain.agents import create_agent
+from langchain_core.tools import Tool
 from datetime import datetime
 
 # Load environment variables
@@ -63,11 +62,12 @@ def main():
     ]
 
     # Get the prompt template from LangChain hub
-    prompt = hub.pull("hwchase17/openai-functions-agent")
-
-    # Create the agent
-    agent = create_openai_functions_agent(llm, tools, prompt)
-    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    # Create the agent using create_agent
+    agent_executor = create_agent(
+        llm,
+        tools=tools,
+        debug=True
+    )
 
     # Example queries
     queries = [

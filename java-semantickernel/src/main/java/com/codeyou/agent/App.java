@@ -1,6 +1,11 @@
 package com.codeyou.agent;
 
+import com.azure.ai.openai.OpenAIAsyncClient;
+import com.azure.ai.openai.OpenAIClientBuilder;
+import com.azure.core.credential.KeyCredential;
 import com.microsoft.semantickernel.Kernel;
+import com.microsoft.semantickernel.plugin.KernelPlugin;
+import com.microsoft.semantickernel.plugin.KernelPluginFactory;
 import com.microsoft.semantickernel.orchestration.InvocationContext;
 import com.microsoft.semantickernel.orchestration.ToolCallBehavior;
 import com.microsoft.semantickernel.services.chatcompletion.ChatCompletionService;
@@ -30,16 +35,28 @@ public class App {
         }
 
         try {
-            // Create kernel with OpenAI chat completion
+            // Create OpenAI async client
+            OpenAIAsyncClient openAIAsyncClient = new OpenAIClientBuilder()
+                    .credential(new KeyCredential(apiKey))
+                    .buildAsyncClient();
+
+            // Create OpenAI chat completion service
+            ChatCompletionService chatCompletionService = 
+                com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion.builder()
+                    .withOpenAIAsyncClient(openAIAsyncClient)
+                    .withModelId("gpt-4")
+                    .build();
+
+            // Create kernel with plugins
+            KernelPlugin timePlugin = KernelPluginFactory.createFromObject(new TimePlugin(), "TimePlugin");
+            KernelPlugin mathPlugin = KernelPluginFactory.createFromObject(new MathPlugin(), "MathPlugin");
+            KernelPlugin stringPlugin = KernelPluginFactory.createFromObject(new StringPlugin(), "StringPlugin");
+
             Kernel kernel = Kernel.builder()
-                    .withAIService(ChatCompletionService.class, 
-                        com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion.builder()
-                            .withApiKey(apiKey)
-                            .withModelId("gpt-4")
-                            .build())
-                    .withPlugin(new TimePlugin(), "TimePlugin")
-                    .withPlugin(new MathPlugin(), "MathPlugin")
-                    .withPlugin(new StringPlugin(), "StringPlugin")
+                    .withAIService(ChatCompletionService.class, chatCompletionService)
+                    .withPlugin(timePlugin)
+                    .withPlugin(mathPlugin)
+                    .withPlugin(stringPlugin)
                     .build();
 
             // Get chat completion service
