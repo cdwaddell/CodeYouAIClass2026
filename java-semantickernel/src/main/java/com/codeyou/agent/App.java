@@ -63,8 +63,9 @@ public class App {
             // Get chat completion service
             ChatCompletionService chatService = kernel.getService(ChatCompletionService.class);
 
-            // Create chat history
+            // Create chat history with system prompt
             ChatHistory chatHistory = new ChatHistory();
+            chatHistory.addSystemMessage("You are a professional and helpful AI assistant. Provide succinct, accurate responses.");
 
             // Example queries
             String[] queries = {

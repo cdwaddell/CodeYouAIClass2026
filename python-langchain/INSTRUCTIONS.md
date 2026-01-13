@@ -16,13 +16,30 @@ Before starting this lab, ensure you have the following installed:
 3. **GitHub Models Access**
    - Sign in to GitHub with your account
    - Visit https://github.com/marketplace/models
-   - Create a Personal Access Token (PAT) with appropriate permissions
+   - Find and select the **gpt-4o** model from OpenAI
+   - Click "Get started" or "Deploy" to enable the model for your account
+   - Create a Personal Access Token (PAT) with the following steps:
+     1. **Navigate to Developer Settings**: In GitHub, click your profile photo, go to Settings, then click Developer settings in the left sidebar
+     2. **Select Fine-grained Tokens**: Under "Personal access tokens", select Fine-grained tokens and then click Generate new token
+     3. **Configure Token Details**: Give the token a descriptive name (e.g., "GitHub Models Access") and set an expiration period (recommended for security)
+     4. **Select Repository Access**: Choose whether the token can access all repositories or only specific ones. For security, it is best to select "Only select repositories" and choose the minimal number needed
+     5. **Add Permissions**: Under the "Permissions" section, find the **Models** permission under "Account permissions" and set its access level to **Read**
+     6. **Generate and Save**: Click Generate token at the bottom of the page. Immediately copy the token and store it in a secure location, as you will not be able to see it again
    - Or use your GitHub Copilot subscription which includes access to GitHub Models
 
-4. **Create .env File**
-   - Create a `.env` file in the project root directory
+4. **Create .gitignore File**
+   - Download the Python .gitignore template from GitHub:
+     - Visit: https://github.com/github/gitignore/blob/main/Python.gitignore
+     - Click "Raw" button and save the content to a `.gitignore` file in your project root
+     - Or use this direct link: https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
+   - **Important**: Verify that `.env` is included in the .gitignore (it should be by default)
+   - This prevents committing sensitive data (like your GitHub token) and generated files to version control
+
+5. **Create .env File**
+   - Create a `.env` file in the project root directory (this should already be in your .gitignore)
    - Add your GitHub token: `GITHUB_TOKEN=your_token_here`
    - Replace `your_token_here` with your actual GitHub Personal Access Token
+   - **Important**: Never commit this file to version control - verify it's listed in `.gitignore`
 
 ---
 
@@ -259,6 +276,13 @@ Update the output formatting to:
 
 ---
 
+**Prompt 19: Add System Message**
+```
+Update the agent initialization to include a system message that instructs the AI to be professional and succinct. Add this configuration when creating the agent.
+```
+
+---
+
 ### Part 4: Final Testing
 
 **Testing Instructions:**
@@ -308,6 +332,43 @@ Running example queries:
 
 🎉 Agent demo complete!
 ```
+
+---
+
+## Final Assessment
+
+Test your understanding by completing this assessment:
+
+### Weather Tool with Multi-Function Calling
+
+**Objective:** Create a Weather Tool that demonstrates the AI's ability to chain multiple function calls together.
+
+**Requirements:**
+
+1. **Create a Weather Tool function** that:
+   - Takes a string input parameter (date in format "YYYY-MM-DD")
+   - Has a docstring explaining it returns weather information for a given date
+   - Returns "Sunny, 72°F" if the date matches today's date (use datetime.now().strftime("%Y-%m-%d"))
+   - Returns "Rainy, 55°F" for all other dates
+   - Include proper error handling
+
+2. **Add the tool** to your tools list:
+   - Create a Tool object with name="get_weather"
+   - Use the weather function as func
+   - Include a detailed description explaining it accepts a date parameter (formatted as "YYYY-MM-DD")
+   - Keep the get_current_time tool in the tools array as well
+
+3. **Test with a query** that requires two function calls:
+   - Ask the AI: "What's the weather like today?"
+   - The AI should:
+     - First call get_current_time() to get today's date
+     - Then call get_weather with that date to get the weather
+     - Return a complete answer combining both pieces of information
+
+**Success Criteria:**
+- The AI successfully chains two function calls without explicit instruction
+- Mock weather data is returned based on the current date
+- The response is coherent and answers the original question
 
 ---
 

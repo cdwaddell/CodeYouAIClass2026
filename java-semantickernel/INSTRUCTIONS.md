@@ -19,13 +19,30 @@ Before starting this lab, ensure you have the following installed:
 4. **GitHub Models Access**
    - Sign in to GitHub with your account
    - Visit https://github.com/marketplace/models
-   - Create a Personal Access Token (PAT) with appropriate permissions
+   - Find and select the **gpt-4o** model from OpenAI
+   - Click "Get started" or "Deploy" to enable the model for your account
+   - Create a Personal Access Token (PAT) with the following steps:
+     1. **Navigate to Developer Settings**: In GitHub, click your profile photo, go to Settings, then click Developer settings in the left sidebar
+     2. **Select Fine-grained Tokens**: Under "Personal access tokens", select Fine-grained tokens and then click Generate new token
+     3. **Configure Token Details**: Give the token a descriptive name (e.g., "GitHub Models Access") and set an expiration period (recommended for security)
+     4. **Select Repository Access**: Choose whether the token can access all repositories or only specific ones. For security, it is best to select "Only select repositories" and choose the minimal number needed
+     5. **Add Permissions**: Under the "Permissions" section, find the **Models** permission under "Account permissions" and set its access level to **Read**
+     6. **Generate and Save**: Click Generate token at the bottom of the page. Immediately copy the token and store it in a secure location, as you will not be able to see it again
    - Or use your GitHub Copilot subscription which includes access to GitHub Models
 
-5. **Create .env File**
-   - Create a `.env` file in the project root directory
+5. **Create .gitignore File**
+   - Download the Java .gitignore template from GitHub:
+     - Visit: https://github.com/github/gitignore/blob/main/Java.gitignore
+     - Click "Raw" button and save the content to a `.gitignore` file in your project root
+     - Or use this direct link: https://raw.githubusercontent.com/github/gitignore/main/Java.gitignore
+   - Additionally, add `.env` to your .gitignore file if it's not already included
+   - This prevents committing sensitive data (like your GitHub token), build artifacts, and IDE files to version control
+
+6. **Create .env File**
+   - Create a `.env` file in the project root directory (this should already be in your .gitignore)
    - Add your GitHub token: `GITHUB_TOKEN=your_token_here`
    - Replace `your_token_here` with your actual GitHub Personal Access Token
+   - **Important**: Never commit this file to version control - verify it's listed in `.gitignore`
 
 ---
 
@@ -68,7 +85,20 @@ Create a new Maven project for a Java Semantic Kernel AI agent application. The 
 - Create the pom.xml file
 ```
 
-**Prompt 2: Create Project Structure**
+**Prompt 2: Restore Dependencies**
+After creating the project file, restore Maven dependencies:
+```bash
+mvn clean install
+```
+Verify the following dependencies were installed:
+- Microsoft Semantic Kernel
+- Azure OpenAI client library
+- dotenv-java
+```
+
+Verify that AI ran the mvn clean install command and that the dependencies were installed.
+
+**Prompt 3: Create Project Structure**
 ```
 Create the standard Maven directory structure and a basic App.java main class in src/main/java/com/codeyou/agent/
 ```
@@ -77,7 +107,7 @@ Create the standard Maven directory structure and a basic App.java main class in
 
 ### Part 2: Basic Application Setup (Without Function Calling)
 
-**Prompt 3: Load Environment Variables**
+**Prompt 4: Load Environment Variables**
 ```
 In App.java, add code to:
 - Load environment variables from a .env file using dotenv-java
@@ -86,22 +116,22 @@ In App.java, add code to:
 - Include helpful user feedback with emoji
 ```
 
-**Prompt 4: Initialize GitHub Models Client**
+**Prompt 5: Initialize GitHub Models Client**
 ```
 Add code to create an OpenAI async client using the Azure OpenAI SDK configured to use GitHub Models endpoint (https://models.github.ai/inference) with the GitHub token from environment variables
 ```
 
-**Prompt 5: Create Chat Completion Service**
+**Prompt 6: Create Chat Completion Service**
 ```
 Create an OpenAI chat completion service using Semantic Kernel that uses the model "openai/gpt-4o" (available on GitHub Models)
 ```
 
-**Prompt 6: Build Basic Kernel**
+**Prompt 7: Build Basic Kernel**
 ```
 Create a Semantic Kernel instance and register the chat completion service with it
 ```
 
-**Prompt 7: Test Math Query (Without Function)**
+**Prompt 8: Test Math Query (Without Function)**
 ```
 Add code to:
 - Get the chat completion service from the kernel
@@ -112,13 +142,13 @@ Add code to:
 - Note: The AI will try to answer on its own without tools
 ```
 
-**Test Point**: Run the application. You should see the AI attempt to answer the math question, but it may not be accurate since it doesn't have access to calculation tools.
+**Test Point**: Run the application using `mvn exec:java`. You should see the AI attempt to answer the math question, but it may not be accurate since it doesn't have access to calculation tools.
 
 ---
 
 ### Part 3: Adding Function Calling with Plugins
 
-**Prompt 8: Create MathPlugin**
+**Prompt 9: Create MathPlugin**
 ```
 Create a MathPlugin.java class that:
 - Has a calculate method annotated with @DefineKernelFunction
@@ -129,14 +159,14 @@ Create a MathPlugin.java class that:
 - Includes proper descriptions for the function and parameter
 ```
 
-**Prompt 9: Register MathPlugin with Kernel**
+**Prompt 10: Register MathPlugin with Kernel**
 ```
 Update App.java to:
 - Create an instance of MathPlugin using KernelPluginFactory
 - Register the plugin with the kernel builder
 ```
 
-**Prompt 10: Add Function Calling Support**
+**Prompt 11: Add Function Calling Support**
 ```
 Update the chat interaction code to:
 - Create an InvocationContext with ToolCallBehavior that allows all kernel functions
@@ -148,7 +178,7 @@ Update the chat interaction code to:
 
 ---
 
-**Prompt 11: Test String Query (Without Function)**
+**Prompt 12: Test String Query (Without Function)**
 ```
 Replace the math query with a new query: "Reverse the string 'Hello World'"
 Comment out the MathPlugin registration
@@ -159,7 +189,7 @@ Run the application and observe that the AI attempts to reverse the string witho
 
 ---
 
-**Prompt 12: Create StringPlugin**
+**Prompt 13: Create StringPlugin**
 ```
 Create a StringPlugin.java class that:
 - Has a reverseString method annotated with @DefineKernelFunction
@@ -168,7 +198,7 @@ Create a StringPlugin.java class that:
 - Includes proper descriptions for the function and parameter
 ```
 
-**Prompt 13: Register StringPlugin with Kernel**
+**Prompt 14: Register StringPlugin with Kernel**
 ```
 Update App.java to:
 - Create an instance of StringPlugin using KernelPluginFactory
@@ -179,7 +209,7 @@ Update App.java to:
 
 ---
 
-**Prompt 14: Test Time Query (Without Function)**
+**Prompt 15: Test Time Query (Without Function)**
 ```
 Replace the string query with a new query: "What time is it right now?"
 Comment out the TimePlugin registration (keep Math and String plugins commented)
@@ -190,7 +220,7 @@ Run the application and observe that the AI cannot provide the current time
 
 ---
 
-**Prompt 15: Create TimePlugin**
+**Prompt 16: Create TimePlugin**
 ```
 Create a new TimePlugin.java class in the same package that:
 - Has a getCurrentTime method annotated with @DefineKernelFunction
@@ -198,14 +228,14 @@ Create a new TimePlugin.java class in the same package that:
 - Includes proper descriptions for the function
 ```
 
-**Prompt 16: Register TimePlugin with Kernel**
+**Prompt 17: Register TimePlugin with Kernel**
 ```
 Update App.java to:
 - Create an instance of TimePlugin using KernelPluginFactory
 - Register all three plugins (TimePlugin, MathPlugin, and StringPlugin) with the kernel builder
 ```
 
-**Prompt 17: Create Multiple Test Queries**
+**Prompt 18: Create Multiple Test Queries**
 ```
 Replace the single query with an array of test queries:
 - "What time is it right now?"
@@ -219,18 +249,23 @@ Loop through each query, add it to chat history, get the AI response with functi
 
 ---
 
-**Prompt 18: Add Error Handling**
+**Prompt 19: Add System Prompt**
+```
+Update the chat history creation to include a system message that instructs the AI to be professional and succinct. Add the system message immediately after creating the ChatHistory object and before adding any user messages.
+```
+
+**Prompt 20: Add Error Handling**
 ```
 Wrap the query loop and individual queries in try-catch blocks to handle any errors gracefully and display user-friendly error messages
 ```
 
 ---
 
-### Part 4: Final Testing
+### Part 4: Testing
 
 **Testing Instructions:**
 
-Run the application with all three plugins enabled. You should observe:
+Run the application with all three plugins enabled using `mvn exec:java`. You should observe:
 - Time queries return accurate current time via TimePlugin
 - Math calculations are precise via MathPlugin
 - String reversal is correct via StringPlugin
@@ -267,6 +302,39 @@ Running example queries:
 
 ---
 
+## Final Assessment
+
+Test your understanding by completing this assessment:
+
+### Weather Plugin with Multi-Function Calling
+
+**Objective:** Create a WeatherPlugin that demonstrates the AI's ability to chain multiple function calls together.
+
+**Requirements:**
+
+1. **Create a WeatherPlugin** with a method that:
+   - Has a @DefineKernelFunction annotation
+   - Accepts a date parameter (formatted as "yyyy-MM-dd")
+   - Returns "Sunny, 72°F" if the date matches today's date
+   - Returns "Rainy, 55°F" for all other dates
+   - Include proper descriptions for both the function and parameter
+
+2. **Register the plugin** with your kernel along with the existing TimePlugin
+
+3. **Test with a query** that requires two function calls:
+   - Ask the AI: "What's the weather like today?"
+   - The AI should:
+     - First call TimePlugin.getCurrentTime() to get today's date
+     - Then call WeatherPlugin with that date to get the weather
+     - Return a complete answer combining both pieces of information
+
+**Success Criteria:**
+- The AI successfully chains two function calls without explicit instruction
+- Mock weather data is returned based on the current date
+- The response is coherent and answers the original question
+
+---
+
 ## Discussion Questions
 
 After completing the lab, consider:
@@ -283,46 +351,91 @@ After completing the lab, consider:
 If you finish early, try:
 
 ### Additional Plugins
-1. Create a WeatherPlugin that returns mock weather data
-2. Add a FilePlugin that can read/write text files
-3. Create a DatabasePlugin that queries a simple in-memory database
-4. Add conversation memory to maintain context across multiple interactions
+1. Add a FilePlugin that can read/write text files
+2. Create a DatabasePlugin that queries a simple in-memory database
 
 ### Cross-Cutting Concerns (Use Copilot to Help!)
 
 **Logging & Observability**
-5. Add comprehensive logging throughout the application
+3. Add comprehensive logging throughout the application
    - Log all AI requests and responses
    - Log function calls with parameters and results
    - Use a logging framework like SLF4J with Logback
    - Include timestamps and log levels (INFO, DEBUG, ERROR)
-   - Ask Copilot: "Add logging to track AI interactions and function calls"
+   - Ask Copilot: "Add logging to track AI interactions and function calls using SLF4J"
 
 **Performance Monitoring**
-6. Add performance metrics and timing
+4. Add performance metrics and timing
    - Measure response time for each AI query
    - Track function execution duration
    - Log slow queries (over a threshold)
    - Ask Copilot: "Add performance monitoring to track query response times"
 
 **Error Handling & Resilience**
-7. Implement robust error handling
+5. Implement robust error handling
    - Add retry logic with exponential backoff for API failures
    - Handle rate limiting scenarios gracefully
    - Provide detailed error messages to users
    - Ask Copilot: "Add retry logic with exponential backoff for AI API calls"
 
 **Input Validation**
-8. Add input validation and sanitization
+6. Add input validation and sanitization
    - Validate user queries before sending to AI
    - Sanitize inputs to prevent injection attacks
    - Set maximum query length limits
    - Ask Copilot: "Add input validation to sanitize and validate user queries"
 
 **Handling Rate Limit Responses (HTTP 429)**
-9. Handle rate limiting responses from the API
+7. Handle rate limiting responses from the API
    - Detect and catch HTTP 429 (Too Many Requests) errors
    - Parse retry-after headers from the response
    - Implement automatic retry after the specified delay
    - Display user-friendly messages when rate limited
    - Ask Copilot: "Add handling for HTTP 429 rate limit responses with automatic retry"
+
+---
+
+## Troubleshooting
+
+### Maven Build Issues
+
+If you encounter dependency resolution issues, try:
+```bash
+mvn clean install -U
+```
+
+### Java Version Issues
+
+Ensure you're using Java 17 or later. Check with:
+```bash
+java -version
+```
+
+Set JAVA_HOME if needed:
+```powershell
+# Windows PowerShell
+$env:JAVA_HOME="C:\Program Files\Java\jdk-17"
+
+# Linux/Mac
+export JAVA_HOME=/path/to/jdk-17
+```
+
+### Running the Application
+
+**Using Maven:**
+```bash
+mvn exec:java
+```
+
+**Using the compiled JAR:**
+```bash
+java -jar target/java-semantickernel-1.0-SNAPSHOT.jar
+```
+
+### Environment Variable Issues
+
+If the application can't find your GITHUB_TOKEN:
+1. Verify the `.env` file exists in the project root directory
+2. Check that the file contains: `GITHUB_TOKEN=your_token_here`
+3. Make sure there are no extra spaces or quotes around the token value
+4. Restart your terminal/IDE after creating the `.env` file

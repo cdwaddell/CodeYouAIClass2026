@@ -16,13 +16,30 @@ Before starting this lab, ensure you have the following installed:
 3. **GitHub Models Access**
    - Sign in to GitHub with your account
    - Visit https://github.com/marketplace/models
-   - Create a Personal Access Token (PAT) with appropriate permissions
+   - Find and select the **gpt-4o** model from OpenAI
+   - Click "Get started" or "Deploy" to enable the model for your account
+   - Create a Personal Access Token (PAT) with the following steps:
+     1. **Navigate to Developer Settings**: In GitHub, click your profile photo, go to Settings, then click Developer settings in the left sidebar
+     2. **Select Fine-grained Tokens**: Under "Personal access tokens", select Fine-grained tokens and then click Generate new token
+     3. **Configure Token Details**: Give the token a descriptive name (e.g., "GitHub Models Access") and set an expiration period (recommended for security)
+     4. **Select Repository Access**: Choose whether the token can access all repositories or only specific ones. For security, it is best to select "Only select repositories" and choose the minimal number needed
+     5. **Add Permissions**: Under the "Permissions" section, find the **Models** permission under "Account permissions" and set its access level to **Read**
+     6. **Generate and Save**: Click Generate token at the bottom of the page. Immediately copy the token and store it in a secure location, as you will not be able to see it again
    - Or use your GitHub Copilot subscription which includes access to GitHub Models
 
-4. **Create .env File**
-   - Create a `.env` file in the project root directory
+4. **Create .gitignore File**
+   - Download the Node.js .gitignore template from GitHub:
+     - Visit: https://github.com/github/gitignore/blob/main/Node.gitignore
+     - Click "Raw" button and save the content to a `.gitignore` file in your project root
+     - Or use this direct link: https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
+   - **Important**: Verify that `.env` is included in the .gitignore (it should be by default)
+   - This prevents committing sensitive data (like your GitHub token) and dependencies to version control
+
+5. **Create .env File**
+   - Create a `.env` file in the project root directory (this should already be in your .gitignore)
    - Add your GitHub token: `GITHUB_TOKEN=your_token_here`
    - Replace `your_token_here` with your actual GitHub Personal Access Token
+   - **Important**: Never commit this file to version control - verify it's listed in `.gitignore`
 
 ---
 
@@ -64,7 +81,7 @@ Initialize a new Node.js project for a JavaScript LangChain AI agent application
 - Main entry point: app.js
 ```
 
-**Prompt 2: Install Required Dependencies**
+**Prompt 2: Install Dependencies**
 ```
 Add npm install commands to install the following packages:
 - @langchain/openai (for OpenAI integration)
@@ -73,6 +90,8 @@ Add npm install commands to install the following packages:
 - langchain (main LangChain library)
 - dotenv (for environment variables)
 ```
+
+Verify that AI ran the npm install command and that the dependencies were installed.
 
 **Prompt 3: Create Basic App Structure**
 ```
@@ -250,6 +269,13 @@ Update the output formatting to:
 
 ---
 
+**Prompt 19: Add System Message**
+```
+Update the agent executor initialization to include a system message that instructs the AI to be professional and succinct. Add this configuration before creating the agent executor.
+```
+
+---
+
 ### Part 4: Final Testing
 
 **Testing Instructions:**
@@ -302,6 +328,39 @@ Running example queries:
 
 ---
 
+## Final Assessment
+
+Test your understanding by completing this assessment:
+
+### Weather Tool with Multi-Function Calling
+
+**Objective:** Create a Weather Tool that demonstrates the AI's ability to chain multiple function calls together.
+
+**Requirements:**
+
+1. **Create a Weather Tool** using DynamicTool that:
+   - Has name: "get_weather"
+   - Has a description that explains it accepts a date parameter (formatted as "yyyy-MM-dd")
+   - Returns "Sunny, 72°F" if the date matches today's date
+   - Returns "Rainy, 55°F" for all other dates
+   - Include proper description for the function
+
+2. **Register the tool** in your tools array along with the existing get_current_time tool
+
+3. **Test with a query** that requires two function calls:
+   - Ask the AI: "What's the weather like today?"
+   - The AI should:
+     - First call get_current_time() to get today's date
+     - Then call get_weather with that date to get the weather
+     - Return a complete answer combining both pieces of information
+
+**Success Criteria:**
+- The AI successfully chains two function calls without explicit instruction
+- Mock weather data is returned based on the current date
+- The response is coherent and answers the original question
+
+---
+
 ## Discussion Questions
 
 After completing the lab, consider:
@@ -319,15 +378,14 @@ After completing the lab, consider:
 If you finish early, try:
 
 ### Additional Tools
-1. Create a WeatherTool that returns mock weather data for a given city
-2. Add a FileTool that can read/write text files using Node.js fs module
-3. Create a WebSearchTool that simulates web search results
-4. Add conversation memory to maintain context across multiple interactions using BufferMemory
+1. Add a FileTool that can read/write text files using Node.js fs module
+2. Create a WebSearchTool that simulates web search results
+3. Add conversation memory to maintain context across multiple interactions using BufferMemory
 
 ### Cross-Cutting Concerns (Use Copilot to Help!)
 
 **Logging & Observability**
-5. Add comprehensive logging throughout the application
+4. Add comprehensive logging throughout the application
    - Log all AI requests and responses
    - Log tool calls with parameters and results
    - Use a logging library like winston or pino
@@ -335,37 +393,76 @@ If you finish early, try:
    - Ask Copilot: "Add logging using winston to track AI interactions and tool calls"
 
 **Performance Monitoring**
-6. Add performance metrics and timing
+5. Add performance metrics and timing
    - Measure response time for each AI query
    - Track tool execution duration using console.time() and console.timeEnd()
    - Log slow queries (over a threshold)
    - Ask Copilot: "Add performance monitoring to track query response times"
 
 **Error Handling & Resilience**
-7. Implement robust error handling
+6. Implement robust error handling
    - Add retry logic with exponential backoff for API failures
    - Handle rate limiting scenarios gracefully
    - Provide detailed error messages to users
    - Ask Copilot: "Add retry logic with exponential backoff for AI API calls"
 
 **Input Validation**
-8. Add input validation and sanitization
+7. Add input validation and sanitization
    - Validate user queries before sending to AI
    - Sanitize inputs to prevent injection attacks
    - Set maximum query length limits
    - Ask Copilot: "Add input validation to sanitize and validate user queries"
 
 **Streaming Responses**
-9. Implement streaming for real-time responses
+8. Implement streaming for real-time responses
    - Use the streaming capability of LangChain
    - Display responses as they are generated token by token
    - Handle streaming errors gracefully
    - Ask Copilot: "Add streaming support to display AI responses in real-time"
 
 **Handling Rate Limit Responses (HTTP 429)**
-10. Handle rate limiting responses from the API
+9. Handle rate limiting responses from the API
     - Detect and catch HTTP 429 (Too Many Requests) errors
     - Parse retry-after headers from the response
     - Implement automatic retry after the specified delay
     - Display user-friendly messages when rate limited
     - Ask Copilot: "Add handling for HTTP 429 rate limit responses with automatic retry"
+
+---
+
+## Troubleshooting
+
+### NPM Installation Issues
+
+If you encounter dependency issues, try:
+```bash
+npm clean-install
+```
+
+### Node Version Issues
+
+Ensure you're using Node.js 18 or later. Check with:
+```bash
+node --version
+```
+
+Use nvm (Node Version Manager) to switch versions if needed:
+```bash
+nvm install 18
+nvm use 18
+```
+
+### Running the Application
+
+Run the application with:
+```bash
+node app.js
+```
+
+### Environment Variable Issues
+
+If the application can't find your GITHUB_TOKEN:
+1. Verify the `.env` file exists in the project root directory
+2. Check that the file contains: `GITHUB_TOKEN=your_token_here`
+3. Make sure there are no extra spaces or quotes around the token value
+4. Restart your terminal/IDE after creating the `.env` file

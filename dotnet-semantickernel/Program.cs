@@ -29,7 +29,7 @@ namespace SemanticKernelAgent
 
             // Create kernel with GitHub Models chat completion
             var builder = Kernel.CreateBuilder();
-            
+
             builder.AddOpenAIChatCompletion(
                 modelId: "openai/gpt-4o",
                 apiKey: githubToken,
@@ -45,8 +45,9 @@ namespace SemanticKernelAgent
             // Get chat completion service
             var chatService = kernel.GetRequiredService<IChatCompletionService>();
 
-            // Create chat history
+            // Create chat history with system prompt
             var chatHistory = new ChatHistory();
+            chatHistory.AddSystemMessage("You are a professional and helpful AI assistant. Provide succinct, accurate responses.");
             
             // Example queries
             var queries = new[]

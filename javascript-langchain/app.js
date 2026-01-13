@@ -53,6 +53,9 @@ async function main() {
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
     agentType: "openai-functions",
     verbose: true,
+    agentArgs: {
+      prefix: "You are a professional and helpful AI assistant. Provide succinct, accurate responses.",
+    },
   });
 
   // Example queries

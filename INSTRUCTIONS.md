@@ -16,7 +16,7 @@ Follow these steps to set up your lab environment and complete the assignments:
    - Select "New repository"
    - Name it: `ai-agent-lab` (or your preferred name)
    - Add a description: "AI Agent lab assignments"
-   - Choose "Public" or "Private" (check with your instructor)
+   - Choose "Public"
    - **Do NOT** initialize with README, .gitignore, or license
    - Click "Create repository"
 3. **Copy the repository URL** (you'll need this in Step 3)
@@ -28,8 +28,8 @@ Follow these steps to set up your lab environment and complete the assignments:
 Clone this class repository to get the starter code and instructions:
 
 ```bash
-git clone https://github.com/cdwaddell/CodeYouAIClass2026.git
-cd CodeYouAIClass
+git clone https://github.com/cdwaddell/CodeYouAIClass2026Unit3.git
+cd CodeYouAIClass2026Unit3
 ```
 
 ---
@@ -42,22 +42,18 @@ This course offers multiple language options. Choose ONE of the following based 
 
 ### Option 1: Java with Semantic Kernel
 - **Sample Directory:** `java-semantickernel/` (reference implementation)
-- **Instructions:** [java-semantickernel/INSTRUCTIONS.md](java-semantickernel/INSTRUCTIONS.md)
 - **Best for:** Students familiar with Java and Maven
 
 ### Option 2: JavaScript with LangChain
 - **Sample Directory:** `javascript-langchain/` (reference implementation)
-- **Instructions:** [javascript-langchain/INSTRUCTIONS.md](javascript-langchain/INSTRUCTIONS.md)
 - **Best for:** Students familiar with Node.js and npm
 
 ### Option 3: Python with LangChain
 - **Sample Directory:** `python-langchain/` (reference implementation)
-- **Instructions:** [python-langchain/INSTRUCTIONS.md](python-langchain/INSTRUCTIONS.md)
 - **Best for:** Students familiar with Python and pip
 
 ### Option 4: C# with Semantic Kernel
 - **Sample Directory:** `dotnet-semantickernel/` (reference implementation)
-- **Instructions:** [dotnet-semantickernel/INSTRUCTIONS.md](dotnet-semantickernel/INSTRUCTIONS.md)
 - **Best for:** Students familiar with .NET and C#
 
 ### Option 5: Build Your Own in Another Language (Advanced)
@@ -83,9 +79,9 @@ The sample directories in the class repository are reference implementations tha
 
 ```bash
 # Navigate to your repository
-cd path/to/your/ai-agent-lab
+mkdir [path/to/create/your/ai-agent-lab]
 
-# Create a directory for your project
+# Create a directory for your new project
 # Use the same name as your chosen language for consistency
 mkdir [your-project-name]
 cd [your-project-name]
@@ -103,7 +99,7 @@ cd [your-project-name]
 
 ```bash
 # Make sure you're in your repository root directory
-cd path/to/your/ai-agent-lab
+cd [path/where/you/created/your/ai-agent-lab]
 
 # Initialize git (if not already done)
 git init
@@ -125,6 +121,23 @@ git push -u origin main
 ```
 
 **Note:** Replace `[your-repository-url]` with the URL you copied in Step 1.
+
+---
+
+## NOTE: Commit and Push Your Work Regularly
+
+As you complete each section of the lab:
+
+```bash
+# Stage your changes
+git add .
+
+# Commit with a descriptive message
+git commit -m "Complete Part 2: Added Calculator tool"
+
+# Push to GitHub
+git push
+```
 
 ---
 
@@ -151,21 +164,6 @@ The instructions will guide you through:
 5. Optional extension challenges
 
 ---
-
-## Step 7: Commit and Push Your Work Regularly
-
-As you complete each section of the lab:
-
-```bash
-# Stage your changes
-git add .
-
-# Commit with a descriptive message
-git commit -m "Complete Part 2: Added Calculator tool"
-
-# Push to GitHub
-git push
-```
 
 **Best Practices:**
 - Commit after completing each major prompt or section
@@ -249,7 +247,7 @@ After completing your first AI agent, challenge yourself by building the same pr
 
 1. **Create a new directory** in your repository for the second language
    ```bash
-   cd path/to/your/ai-agent-lab
+   cd [path/where/you/created/your/ai-agent-lab]
    mkdir [second-language-directory]
    ```
 

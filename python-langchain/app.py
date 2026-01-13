@@ -73,7 +73,8 @@ def main():
     agent_executor = create_agent(
         llm,
         tools=tools,
-        debug=True
+        debug=True,
+        system_message="You are a professional and helpful AI assistant. Provide succinct, accurate responses."
     )
 
     # Example queries
