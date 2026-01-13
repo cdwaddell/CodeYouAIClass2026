@@ -28,7 +28,7 @@ Follow these steps to set up your lab environment and complete the assignments:
 Clone this class repository to get the starter code and instructions:
 
 ```bash
-git clone https://github.com/cdwaddell/CodeYouAIClass2026Unit3.git
+git clone https://github.com/CodeYouOrg/CodeYouAIClass2026Unit3.git
 cd CodeYouAIClass2026Unit3
 ```
 
