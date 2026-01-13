@@ -10,18 +10,24 @@ dotenv.config();
 async function main() {
   console.log("🤖 JavaScript LangChain Agent Starting...\n");
 
-  // Check for API key
-  if (!process.env.OPENAI_API_KEY) {
-    console.error("❌ Error: OPENAI_API_KEY not found in environment variables.");
-    console.log("Please create a .env file with your OpenAI API key:");
-    console.log("OPENAI_API_KEY=your-api-key-here");
+  // Check for GitHub token
+  if (!process.env.GITHUB_TOKEN) {
+    console.error("❌ Error: GITHUB_TOKEN not found in environment variables.");
+    console.log("Please create a .env file with your GitHub token:");
+    console.log("GITHUB_TOKEN=your-github-token-here");
+    console.log("\nGet your token from: https://github.com/settings/tokens");
+    console.log("Or use GitHub Models: https://github.com/marketplace/models");
     process.exit(1);
   }
 
-  // Initialize the LLM
+  // Initialize the LLM with GitHub Models
   const model = new ChatOpenAI({
-    modelName: "gpt-4",
+    modelName: "openai/gpt-4o",
     temperature: 0,
+    configuration: {
+      baseURL: "https://models.github.ai/inference",
+      apiKey: process.env.GITHUB_TOKEN,
+    },
   });
 
   // Define tools for the agent

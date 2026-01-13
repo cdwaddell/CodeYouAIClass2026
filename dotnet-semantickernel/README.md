@@ -11,17 +11,20 @@ A command-line AI agent built with C# and Microsoft Semantic Kernel.
 dotnet restore
 ```
 
-3. Set your OpenAI API key using one of these methods:
+3. Set your GitHub token using one of these methods:
 
    **Option A: Environment Variable (for current session)**
    ```powershell
-   $env:OPENAI_API_KEY="your-api-key-here"
+   $env:GITHUB_TOKEN="your-github-token-here"
    ```
 
    **Option B: User Secrets (recommended for development)**
    ```bash
-   dotnet user-secrets set "OPENAI_API_KEY" "your-api-key-here"
+   dotnet user-secrets set "GITHUB_TOKEN" "your-github-token-here"
    ```
+
+   Get your GitHub token from: https://github.com/settings/tokens
+   Or use GitHub Models: https://github.com/marketplace/models
 
 ## Run
 
@@ -33,10 +36,11 @@ dotnet run
 
 This starter project demonstrates:
 - **Semantic Kernel**: Microsoft's lightweight AI SDK
+- **GitHub Models**: Access to OpenAI models via GitHub
 - **Plugins**: Modular functions (TimePlugin, MathPlugin, StringPlugin)
 - **Auto Function Calling**: Kernel automatically invokes appropriate functions
 - **Type Safety**: Strong typing with C# attributes
-- **Error Handling**: Graceful error messages and API key validation
+- **Error Handling**: Graceful error messages and token validation
 
 ## Customization
 
@@ -60,24 +64,16 @@ builder.Plugins.AddFromType<MyPlugin>();
 
 ### Changing the Model
 
-Modify the kernel builder in `Program.cs`:
+Modify the kernel builder in `Program.cs` to use different models available on GitHub:
 ```csharp
 builder.AddOpenAIChatCompletion(
-    "gpt-3.5-turbo",  // or "gpt-4-turbo", etc.
-    apiKey
+    modelId: "openai/gpt-4o",  // or "openai/gpt-4o-mini", etc.
+    apiKey: githubToken,
+    endpoint: new Uri("https://models.github.ai/inference")
 );
 ```
 
-### Using Azure OpenAI
-
-Replace the OpenAI connector:
-```csharp
-builder.AddAzureOpenAIChatCompletion(
-    deploymentName: "your-deployment-name",
-    endpoint: "https://your-resource.openai.azure.com/",
-    apiKey: azureApiKey
-);
-```
+Available models: https://github.com/marketplace/models
 
 ## Dependencies
 

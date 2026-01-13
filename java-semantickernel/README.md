@@ -15,10 +15,13 @@ java -version
 mvn -version
 ```
 
-2. Create a `.env` file with your OpenAI API key:
+2. Create a `.env` file with your GitHub token:
 ```
-OPENAI_API_KEY=your-api-key-here
+GITHUB_TOKEN=your-github-token-here
 ```
+
+Get your GitHub token from: https://github.com/settings/tokens
+Or use GitHub Models: https://github.com/marketplace/models
 
 3. Build the project:
 ```bash
@@ -41,10 +44,11 @@ java -jar target/java-semantickernel-agent-1.0-SNAPSHOT.jar
 
 This starter project demonstrates:
 - **Semantic Kernel**: Microsoft's lightweight AI SDK for Java
+- **GitHub Models**: Access to OpenAI models via GitHub
 - **Plugins**: Modular functions (TimePlugin, MathPlugin, StringPlugin)
 - **Auto Function Calling**: Kernel automatically invokes appropriate functions
 - **Type Safety**: Strong typing with Java annotations
-- **Error Handling**: Graceful error messages and API key validation
+- **Error Handling**: Graceful error messages and token validation
 
 ## Project Structure
 
@@ -102,26 +106,21 @@ Register it in `App.java`:
 
 ### Changing the Model
 
-Modify the kernel builder in `App.java`:
+Modify the model ID in `App.java` to use different models available on GitHub:
 ```java
-.withModelId("gpt-3.5-turbo")  // or "gpt-4-turbo", etc.
+OpenAIAsyncClient openAIAsyncClient = new OpenAIClientBuilder()
+        .endpoint("https://models.github.ai/inference")
+        .credential(new KeyCredential(githubToken))
+        .buildAsyncClient();
+
+ChatCompletionService chatCompletionService = 
+    com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion.builder()
+        .withOpenAIAsyncClient(openAIAsyncClient)
+        .withModelId("openai/gpt-4o")  // or "openai/gpt-4o-mini", etc.
+        .build();
 ```
 
-### Using Azure OpenAI
-
-Replace the OpenAI connector in the kernel builder:
-```java
-import com.microsoft.semantickernel.aiservices.openai.chatcompletion.AzureOpenAIChatCompletion;
-
-// ...
-
-.withAIService(ChatCompletionService.class, 
-    AzureOpenAIChatCompletion.builder()
-        .withDeploymentName("your-deployment-name")
-        .withEndpoint("https://your-resource.openai.azure.com/")
-        .withApiKey(azureApiKey)
-        .build())
-```
+Available models: https://github.com/marketplace/models
 
 ## Dependencies
 

@@ -1,7 +1,6 @@
 package com.codeyou.agent;
 
 import com.microsoft.semantickernel.semanticfunctions.annotations.DefineKernelFunction;
-import com.microsoft.semantickernel.semanticfunctions.annotations.KernelFunctionParameter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

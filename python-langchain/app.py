@@ -32,15 +32,22 @@ def calculator(input: str) -> str:
 def main():
     print("🤖 Python LangChain Agent Starting...\n")
 
-    # Check for API key
-    if not os.getenv("OPENAI_API_KEY"):
-        print("❌ Error: OPENAI_API_KEY not found in environment variables.")
-        print("Please create a .env file with your OpenAI API key:")
-        print("OPENAI_API_KEY=your-api-key-here")
+    # Check for GitHub token
+    if not os.getenv("GITHUB_TOKEN"):
+        print("❌ Error: GITHUB_TOKEN not found in environment variables.")
+        print("Please create a .env file with your GitHub token:")
+        print("GITHUB_TOKEN=your-github-token-here")
+        print("\nGet your token from: https://github.com/settings/tokens")
+        print("Or use GitHub Models: https://github.com/marketplace/models")
         return
 
-    # Initialize the LLM
-    llm = ChatOpenAI(model="gpt-4", temperature=0)
+    # Initialize the LLM with GitHub Models
+    llm = ChatOpenAI(
+        model="openai/gpt-4o",
+        temperature=0,
+        base_url="https://models.github.ai/inference",
+        api_key=os.getenv("GITHUB_TOKEN")
+    )
 
     # Define tools for the agent
     tools = [

@@ -23,10 +23,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file with your OpenAI API key:
+4. Create a `.env` file with your GitHub token:
 ```bash
-OPENAI_API_KEY=your-api-key-here
+GITHUB_TOKEN=your-github-token-here
 ```
+
+Get your GitHub token from: https://github.com/settings/tokens
+Or use GitHub Models: https://github.com/marketplace/models
 
 ## Run
 
@@ -38,8 +41,9 @@ python app.py
 
 This starter project demonstrates:
 - **LangChain Agent**: Uses OpenAI Functions agent type
+- **GitHub Models**: Access to OpenAI models via GitHub
 - **Multiple Tools**: Calculator, time retrieval, and string manipulation
-- **Error Handling**: Graceful error messages and API key validation
+- **Error Handling**: Graceful error messages and token validation
 - **Extensibility**: Easy to add more tools and capabilities
 
 ## Customization
@@ -62,13 +66,17 @@ Tool(
 
 ### Changing the Model
 
-Modify the `ChatOpenAI` initialization in `app.py`:
+Modify the `ChatOpenAI` initialization in `app.py` to use different models available on GitHub:
 ```python
 llm = ChatOpenAI(
-    model="gpt-3.5-turbo",  # or "gpt-4-turbo", etc.
-    temperature=0.7
+    model="openai/gpt-4o",  # or "openai/gpt-4o-mini", etc.
+    temperature=0.7,
+    base_url="https://models.github.ai/inference",
+    api_key=os.getenv("GITHUB_TOKEN")
 )
 ```
+
+Available models: https://github.com/marketplace/models
 
 ## Dependencies
 

@@ -22,29 +22,30 @@ public class App {
                 .ignoreIfMissing()
                 .load();
 
-        String apiKey = dotenv.get("OPENAI_API_KEY");
-        if (apiKey == null || apiKey.isEmpty()) {
-            apiKey = System.getenv("OPENAI_API_KEY");
+        String githubToken = dotenv.get("GITHUB_TOKEN");
+        if (githubToken == null || githubToken.isEmpty()) {
+            githubToken = System.getenv("GITHUB_TOKEN");
         }
 
-        if (apiKey == null || apiKey.isEmpty()) {
-            System.out.println("❌ Error: OPENAI_API_KEY not found in environment variables.");
-            System.out.println("Please create a .env file with your OpenAI API key:");
-            System.out.println("OPENAI_API_KEY=your-api-key-here");
+        if (githubToken == null || githubToken.isEmpty()) {
+            System.out.println("❌ Error: GITHUB_TOKEN not found in environment variables.");
+            System.out.println("Please create a .env file with your GitHub token:");
+            System.out.println("GITHUB_TOKEN=your-github-token-here");
             return;
         }
 
         try {
-            // Create OpenAI async client
+            // Create OpenAI async client configured for GitHub Models
             OpenAIAsyncClient openAIAsyncClient = new OpenAIClientBuilder()
-                    .credential(new KeyCredential(apiKey))
+                    .endpoint("https://models.github.ai/inference")
+                    .credential(new KeyCredential(githubToken))
                     .buildAsyncClient();
 
             // Create OpenAI chat completion service
             ChatCompletionService chatCompletionService = 
                 com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion.builder()
                     .withOpenAIAsyncClient(openAIAsyncClient)
-                    .withModelId("gpt-4")
+                    .withModelId("openai/gpt-4o")
                     .build();
 
             // Create kernel with plugins

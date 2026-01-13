@@ -17,19 +17,23 @@ namespace SemanticKernelAgent
                 .AddUserSecrets<Program>()
                 .Build();
 
-            var apiKey = configuration["OPENAI_API_KEY"];
+            var githubToken = configuration["GITHUB_TOKEN"];
             
-            if (string.IsNullOrEmpty(apiKey))
+            if (string.IsNullOrEmpty(githubToken))
             {
-                Console.WriteLine("❌ Error: OPENAI_API_KEY not found in environment variables.");
-                Console.WriteLine("Set it using: $env:OPENAI_API_KEY=\"your-api-key-here\"");
-                Console.WriteLine("Or use user secrets: dotnet user-secrets set \"OPENAI_API_KEY\" \"your-api-key-here\"");
+                Console.WriteLine("❌ Error: GITHUB_TOKEN not found in environment variables.");
+                Console.WriteLine("Set it using: $env:GITHUB_TOKEN=\"your-github-token-here\"");
+                Console.WriteLine("Or use user secrets: dotnet user-secrets set \"GITHUB_TOKEN\" \"your-github-token-here\"");
                 return;
             }
 
-            // Create kernel with OpenAI chat completion
+            // Create kernel with GitHub Models chat completion
             var builder = Kernel.CreateBuilder();
-            builder.AddOpenAIChatCompletion("gpt-4", apiKey);
+            
+            builder.AddOpenAIChatCompletion(
+                modelId: "openai/gpt-4o",
+                apiKey: githubToken,
+                endpoint: new Uri("https://models.github.ai/inference"));
             
             // Add plugins (tools) to the kernel
             builder.Plugins.AddFromType<TimePlugin>();
