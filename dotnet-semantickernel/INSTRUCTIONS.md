@@ -113,11 +113,16 @@ Verify that AI ran the dotnet restore command and that the dependencies were ins
 Create a Program.cs file with a basic Main method using top-level statements and the SemanticKernelAgent namespace
 ```
 
+**Prompt 4: Create VS Code Configuration**
+```
+Create VS Code tasks.json and launch.json for the .NET console application in the dotnet-semantickernel folder.
+```
+
 ---
 
 ### Part 2: Basic Application Setup (Without Function Calling)
 
-**Prompt 4: Load Environment Variables**
+**Prompt 5: Load Environment Variables**
 ```
 In Program.cs, add code to:
 - Load configuration from environment variables and user secrets
@@ -127,22 +132,22 @@ In Program.cs, add code to:
 - Use ConfigurationBuilder with AddEnvironmentVariables and AddUserSecrets
 ```
 
-**Prompt 5: Initialize GitHub Models Client**
+**Prompt 6: Initialize GitHub Models Client**
 ```
 Add code to create a Semantic Kernel builder and configure it to use GitHub Models endpoint (https://models.github.ai/inference) with the GitHub token using AddOpenAIChatCompletion
 ```
 
-**Prompt 6: Configure Chat Completion Service**
+**Prompt 7: Configure Chat Completion Service**
 ```
 Configure the OpenAI chat completion service to use the model "openai/gpt-4o" (available on GitHub Models) with the GitHub Models endpoint
 ```
 
-**Prompt 7: Build Basic Kernel**
+**Prompt 8: Build Basic Kernel**
 ```
 Build the Semantic Kernel instance from the builder
 ```
 
-**Prompt 8: Test Math Query (Without Function)**
+**Prompt 9: Test Math Query (Without Function)**
 ```
 Add code to:
 - Get the chat completion service from the kernel using GetRequiredService
@@ -159,7 +164,7 @@ Add code to:
 
 ### Part 3: Adding Function Calling with Plugins
 
-**Prompt 9: Create MathPlugin**
+**Prompt 10: Create MathPlugin**
 ```
 Create a new MathPlugin.cs class that:
 - Has a Calculate method with [KernelFunction] attribute
@@ -170,14 +175,14 @@ Create a new MathPlugin.cs class that:
 - Use NCalc or DataTable.Compute for expression evaluation
 ```
 
-**Prompt 10: Register MathPlugin with Kernel**
+**Prompt 11: Register MathPlugin with Kernel**
 ```
 Update Program.cs to:
 - Register the MathPlugin with the kernel builder using builder.Plugins.AddFromType<MathPlugin>()
 - Add this before building the kernel
 ```
 
-**Prompt 11: Add Function Calling Support**
+**Prompt 12: Add Function Calling Support**
 ```
 Update the chat interaction code to:
 - Create OpenAIPromptExecutionSettings with ToolCallBehavior set to AutoInvokeKernelFunctions
@@ -189,7 +194,7 @@ Update the chat interaction code to:
 
 ---
 
-**Prompt 12: Test String Query (Without Function)**
+**Prompt 13: Test String Query (Without Function)**
 ```
 Replace the math query with a new query: "Reverse the string 'Hello World'"
 Comment out the MathPlugin registration
@@ -200,7 +205,7 @@ Run the application and observe that the AI attempts to reverse the string witho
 
 ---
 
-**Prompt 13: Create StringPlugin**
+**Prompt 14: Create StringPlugin**
 ```
 Create a StringPlugin.cs class that:
 - Has a ReverseString method with [KernelFunction] attribute
@@ -210,7 +215,7 @@ Create a StringPlugin.cs class that:
 - Use string manipulation methods or LINQ to reverse the string
 ```
 
-**Prompt 14: Register StringPlugin with Kernel**
+**Prompt 15: Register StringPlugin with Kernel**
 ```
 Update Program.cs to:
 - Register the StringPlugin with the kernel builder using builder.Plugins.AddFromType<StringPlugin>()
@@ -221,7 +226,7 @@ Update Program.cs to:
 
 ---
 
-**Prompt 15: Test Time Query (Without Function)**
+**Prompt 16: Test Time Query (Without Function)**
 ```
 Replace the string query with a new query: "What time is it right now?"
 Comment out all plugin registrations
@@ -232,7 +237,7 @@ Run the application and observe that the AI cannot provide the current time
 
 ---
 
-**Prompt 16: Create TimePlugin**
+**Prompt 17: Create TimePlugin**
 ```
 Create a new TimePlugin.cs class that:
 - Has a GetCurrentTime method with [KernelFunction] attribute
@@ -241,14 +246,14 @@ Create a new TimePlugin.cs class that:
 - Use DateTime.Now and ToString() for formatting
 ```
 
-**Prompt 17: Register TimePlugin with Kernel**
+**Prompt 18: Register TimePlugin with Kernel**
 ```
 Update Program.cs to:
 - Register all three plugins (TimePlugin, MathPlugin, and StringPlugin) with the kernel builder
 - Use builder.Plugins.AddFromType<T>() for each plugin
 ```
 
-**Prompt 18: Create Multiple Test Queries**
+**Prompt 19: Create Multiple Test Queries**
 ```
 Replace the single query with an array of test queries:
 - "What time is it right now?"
@@ -262,12 +267,12 @@ Loop through each query using a foreach loop, add it to chat history, get the AI
 
 ---
 
-**Prompt 19: Add System Prompt**
+**Prompt 20: Add System Prompt**
 ```
 Update the chat history creation to include a system message that instructs the AI to be professional and succinct. Add the system message immediately after creating the ChatHistory object and before adding any user messages.
 ```
 
-**Prompt 20: Add Error Handling**
+**Prompt 21: Add Error Handling**
 ```
 Wrap the query loop and individual queries in try-catch blocks to handle any exceptions gracefully and display user-friendly error messages with emoji
 ```

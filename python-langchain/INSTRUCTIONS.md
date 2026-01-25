@@ -97,11 +97,16 @@ Create an app.py file that:
 - Includes a starting message with emoji
 ```
 
+**Prompt 4: Create VS Code Configuration**
+```
+Create VS Code tasks.json and launch.json for the python console application in the python-langchain folder.
+```
+
 ---
 
 ### Part 2: Basic Application Setup (Without Tools)
 
-**Prompt 4: Load Environment Variables**
+**Prompt 5: Load Environment Variables**
 ```
 In app.py, add code to:
 - Import and load environment variables using dotenv
@@ -111,7 +116,7 @@ In app.py, add code to:
 - Include helpful user feedback with emoji
 ```
 
-**Prompt 5: Initialize ChatOpenAI Model**
+**Prompt 6: Initialize ChatOpenAI Model**
 ```
 Add code to:
 - Import ChatOpenAI from langchain_openai
@@ -122,7 +127,7 @@ Add code to:
   - api_key from the GITHUB_TOKEN environment variable
 ```
 
-**Prompt 6: Test Basic Query (Without Tools)**
+**Prompt 7: Test Basic Query (Without Tools)**
 ```
 Add code to:
 - Import necessary classes for creating a simple agent
@@ -138,7 +143,7 @@ Add code to:
 
 ### Part 3: Adding Tools and Agent
 
-**Prompt 7: Import Agent and Tool Classes**
+**Prompt 8: Import Agent and Tool Classes**
 ```
 Update the imports to include:
 - create_agent from langchain.agents
@@ -146,7 +151,7 @@ Update the imports to include:
 - datetime from the datetime module
 ```
 
-**Prompt 8: Create Calculator Tool Function**
+**Prompt 9: Create Calculator Tool Function**
 ```
 Before the main() function, create a calculator function that:
 - Takes a string input parameter
@@ -156,7 +161,7 @@ Before the main() function, create a calculator function that:
 - Returns the result as a string
 ```
 
-**Prompt 9: Create Tools List with Calculator**
+**Prompt 10: Create Tools List with Calculator**
 ```
 After initializing the LLM in main(), create a tools list with:
 - A Tool object for the calculator
@@ -165,7 +170,7 @@ After initializing the LLM in main(), create a tools list with:
 - Include a detailed description explaining when to use it
 ```
 
-**Prompt 10: Create Agent with Calculator Tool**
+**Prompt 11: Create Agent with Calculator Tool**
 ```
 Add code to:
 - Create an agent using create_agent()
@@ -181,7 +186,7 @@ Add code to:
 
 ---
 
-**Prompt 11: Test Time Query (Without Tool)**
+**Prompt 12: Test Time Query (Without Tool)**
 ```
 Replace the math query with a new query: "What time is it right now?"
 Comment out the Calculator tool from the tools list
@@ -192,7 +197,7 @@ Run the application and observe that the AI cannot provide the current time accu
 
 ---
 
-**Prompt 12: Create Time Tool Function**
+**Prompt 13: Create Time Tool Function**
 ```
 Before the main() function, create a get_current_time function that:
 - Takes a string input parameter (required by Tool interface)
@@ -201,7 +206,7 @@ Before the main() function, create a get_current_time function that:
 - Returns the formatted string
 ```
 
-**Prompt 13: Add Time Tool to Tools List**
+**Prompt 14: Add Time Tool to Tools List**
 ```
 Add a Tool object to the tools list that:
 - Has name="get_current_time"
@@ -214,7 +219,7 @@ Add a Tool object to the tools list that:
 
 ---
 
-**Prompt 14: Test String Query (Without Tool)**
+**Prompt 15: Test String Query (Without Tool)**
 ```
 Replace the query with: "Reverse the string 'Hello World'"
 Comment out both the Calculator and Time tools
@@ -225,7 +230,7 @@ Run the application and observe that the AI attempts to reverse the string but m
 
 ---
 
-**Prompt 15: Create String Reversal Tool Function**
+**Prompt 16: Create String Reversal Tool Function**
 ```
 Before the main() function, create a reverse_string function that:
 - Takes a string input parameter
@@ -233,7 +238,7 @@ Before the main() function, create a reverse_string function that:
 - Returns the reversed string using Python slice notation [::-1]
 ```
 
-**Prompt 16: Add String Tool to Tools List**
+**Prompt 17: Add String Tool to Tools List**
 ```
 Add a Tool object to the tools list that:
 - Has name="reverse_string"
@@ -246,7 +251,7 @@ Add a Tool object to the tools list that:
 
 ---
 
-**Prompt 17: Create Multiple Test Queries**
+**Prompt 18: Create Multiple Test Queries**
 ```
 Replace the single query with a list of test queries:
 - "What time is it right now?"
@@ -266,7 +271,7 @@ Add a for loop that:
 
 ---
 
-**Prompt 18: Improve Output Formatting**
+**Prompt 19: Improve Output Formatting**
 ```
 Update the output formatting to:
 - Use print("─" * 50) for separator lines
@@ -276,7 +281,7 @@ Update the output formatting to:
 
 ---
 
-**Prompt 19: Add System Message**
+**Prompt 20: Add System Message**
 ```
 Update the agent initialization to include a system message that instructs the AI to be professional and succinct. Add this configuration when creating the agent.
 ```

@@ -102,11 +102,16 @@ Create an app.js file that:
 - Includes a starting message with emoji
 ```
 
+**Prompt 4: Create VS Code Configuration**
+```
+Create VS Code tasks.json and launch.json for the node console application in the javascript-langchain folder.
+```
+
 ---
 
 ### Part 2: Basic Application Setup (Without Tools)
 
-**Prompt 4: Load Environment Variables**
+**Prompt 5: Load Environment Variables**
 ```
 In app.js, add code to:
 - Import and configure dotenv
@@ -116,7 +121,7 @@ In app.js, add code to:
 - Include helpful user feedback with emoji
 ```
 
-**Prompt 5: Initialize ChatOpenAI Model**
+**Prompt 6: Initialize ChatOpenAI Model**
 ```
 Add code to create a ChatOpenAI instance that:
 - Uses the model "openai/gpt-4o"
@@ -125,7 +130,7 @@ Add code to create a ChatOpenAI instance that:
 - Uses the GITHUB_TOKEN as the apiKey in the configuration
 ```
 
-**Prompt 6: Test Basic Query (Without Tools)**
+**Prompt 7: Test Basic Query (Without Tools)**
 ```
 Add code to:
 - Import the ChatOpenAI's invoke method
@@ -141,7 +146,7 @@ Add code to:
 
 ### Part 3: Adding Tools and Agent Executor
 
-**Prompt 7: Import Agent and Tools**
+**Prompt 8: Import Agent and Tools**
 ```
 Update the imports to include:
 - initializeAgentExecutorWithOptions from "langchain/agents"
@@ -149,13 +154,13 @@ Update the imports to include:
 - DynamicTool from "@langchain/core/tools"
 ```
 
-**Prompt 8: Create Calculator Tool**
+**Prompt 9: Create Calculator Tool**
 ```
 After initializing the model, create a tools array with:
 - The Calculator tool from @langchain/community
 ```
 
-**Prompt 9: Create Agent Executor**
+**Prompt 10: Create Agent Executor**
 ```
 Add code to:
 - Create an agent executor using initializeAgentExecutorWithOptions
@@ -163,7 +168,7 @@ Add code to:
 - Use await since it's an async function
 ```
 
-**Prompt 10: Update Query to Use Agent**
+**Prompt 11: Update Query to Use Agent**
 ```
 Replace the direct model.invoke() call with:
 - Create a test query: "What is 25 * 4 + 10?"
@@ -176,7 +181,7 @@ Replace the direct model.invoke() call with:
 
 ---
 
-**Prompt 11: Test Time Query (Without Tool)**
+**Prompt 12: Test Time Query (Without Tool)**
 ```
 Replace the math query with a new query: "What time is it right now?"
 Comment out the Calculator tool from the tools array
@@ -187,7 +192,7 @@ Run the application and observe that the AI cannot provide the current time accu
 
 ---
 
-**Prompt 12: Create Time Tool**
+**Prompt 13: Create Time Tool**
 ```
 Add a DynamicTool to the tools array that:
 - Has name: "get_current_time"
@@ -195,7 +200,7 @@ Add a DynamicTool to the tools array that:
 - Has a func that is an async function returning new Date().toString()
 ```
 
-**Prompt 13: Test Time Query with Tool**
+**Prompt 14: Test Time Query with Tool**
 ```
 Uncomment or add back the Calculator tool
 Keep the query: "What time is it right now?"
@@ -206,7 +211,7 @@ Run the application
 
 ---
 
-**Prompt 14: Test String Query (Without Tool)**
+**Prompt 15: Test String Query (Without Tool)**
 ```
 Replace the query with: "Reverse the string 'Hello World'"
 Comment out the time tool
@@ -217,7 +222,7 @@ Run the application and observe that the AI attempts to reverse the string but m
 
 ---
 
-**Prompt 15: Create String Reversal Tool**
+**Prompt 16: Create String Reversal Tool**
 ```
 Add a DynamicTool to the tools array that:
 - Has name: "reverse_string"
@@ -225,7 +230,7 @@ Add a DynamicTool to the tools array that:
 - Has a func that is an async function taking input and returning the reversed string using split("").reverse().join("")
 ```
 
-**Prompt 16: Test with All Three Tools**
+**Prompt 17: Test with All Three Tools**
 ```
 Ensure all three tools are in the tools array:
 - Calculator
@@ -238,7 +243,7 @@ Update the query to: "Reverse the string 'Hello World'"
 
 ---
 
-**Prompt 17: Create Multiple Test Queries**
+**Prompt 18: Create Multiple Test Queries**
 ```
 Replace the single query with an array of test queries:
 - "What time is it right now?"
@@ -257,7 +262,7 @@ Add a loop that:
 
 ---
 
-**Prompt 18: Improve Output Formatting**
+**Prompt 19: Improve Output Formatting**
 ```
 Update the output formatting to:
 - Print a header "Running example queries:"
@@ -269,7 +274,7 @@ Update the output formatting to:
 
 ---
 
-**Prompt 19: Add System Message**
+**Prompt 20: Add System Message**
 ```
 Update the agent executor initialization to include a system message that instructs the AI to be professional and succinct. Add this configuration before creating the agent executor.
 ```

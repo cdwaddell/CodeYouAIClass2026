@@ -103,11 +103,16 @@ Verify that AI ran the mvn clean install command and that the dependencies were 
 Create the standard Maven directory structure and a basic App.java main class in src/main/java/com/codeyou/agent/
 ```
 
+**Prompt 4: Create VS Code Configuration**
+```
+Create VS Code tasks.json and launch.json for the Maven console application in the java-semantickernel folder.
+```
+
 ---
 
 ### Part 2: Basic Application Setup (Without Function Calling)
 
-**Prompt 4: Load Environment Variables**
+**Prompt 5: Load Environment Variables**
 ```
 In App.java, add code to:
 - Load environment variables from a .env file using dotenv-java
@@ -116,22 +121,22 @@ In App.java, add code to:
 - Include helpful user feedback with emoji
 ```
 
-**Prompt 5: Initialize GitHub Models Client**
+**Prompt 6: Initialize GitHub Models Client**
 ```
 Add code to create an OpenAI async client using the Azure OpenAI SDK configured to use GitHub Models endpoint (https://models.github.ai/inference) with the GitHub token from environment variables
 ```
 
-**Prompt 6: Create Chat Completion Service**
+**Prompt 7: Create Chat Completion Service**
 ```
 Create an OpenAI chat completion service using Semantic Kernel that uses the model "openai/gpt-4o" (available on GitHub Models)
 ```
 
-**Prompt 7: Build Basic Kernel**
+**Prompt 8: Build Basic Kernel**
 ```
 Create a Semantic Kernel instance and register the chat completion service with it
 ```
 
-**Prompt 8: Test Math Query (Without Function)**
+**Prompt 9: Test Math Query (Without Function)**
 ```
 Add code to:
 - Get the chat completion service from the kernel
@@ -148,7 +153,7 @@ Add code to:
 
 ### Part 3: Adding Function Calling with Plugins
 
-**Prompt 9: Create MathPlugin**
+**Prompt 10: Create MathPlugin**
 ```
 Create a MathPlugin.java class that:
 - Has a calculate method annotated with @DefineKernelFunction
@@ -159,14 +164,14 @@ Create a MathPlugin.java class that:
 - Includes proper descriptions for the function and parameter
 ```
 
-**Prompt 10: Register MathPlugin with Kernel**
+**Prompt 11: Register MathPlugin with Kernel**
 ```
 Update App.java to:
 - Create an instance of MathPlugin using KernelPluginFactory
 - Register the plugin with the kernel builder
 ```
 
-**Prompt 11: Add Function Calling Support**
+**Prompt 12: Add Function Calling Support**
 ```
 Update the chat interaction code to:
 - Create an InvocationContext with ToolCallBehavior that allows all kernel functions
@@ -178,7 +183,7 @@ Update the chat interaction code to:
 
 ---
 
-**Prompt 12: Test String Query (Without Function)**
+**Prompt 13: Test String Query (Without Function)**
 ```
 Replace the math query with a new query: "Reverse the string 'Hello World'"
 Comment out the MathPlugin registration
@@ -189,7 +194,7 @@ Run the application and observe that the AI attempts to reverse the string witho
 
 ---
 
-**Prompt 13: Create StringPlugin**
+**Prompt 14: Create StringPlugin**
 ```
 Create a StringPlugin.java class that:
 - Has a reverseString method annotated with @DefineKernelFunction
@@ -198,7 +203,7 @@ Create a StringPlugin.java class that:
 - Includes proper descriptions for the function and parameter
 ```
 
-**Prompt 14: Register StringPlugin with Kernel**
+**Prompt 15: Register StringPlugin with Kernel**
 ```
 Update App.java to:
 - Create an instance of StringPlugin using KernelPluginFactory
@@ -209,7 +214,7 @@ Update App.java to:
 
 ---
 
-**Prompt 15: Test Time Query (Without Function)**
+**Prompt 16: Test Time Query (Without Function)**
 ```
 Replace the string query with a new query: "What time is it right now?"
 Comment out the TimePlugin registration (keep Math and String plugins commented)
@@ -220,7 +225,7 @@ Run the application and observe that the AI cannot provide the current time
 
 ---
 
-**Prompt 16: Create TimePlugin**
+**Prompt 17: Create TimePlugin**
 ```
 Create a new TimePlugin.java class in the same package that:
 - Has a getCurrentTime method annotated with @DefineKernelFunction
@@ -228,14 +233,14 @@ Create a new TimePlugin.java class in the same package that:
 - Includes proper descriptions for the function
 ```
 
-**Prompt 17: Register TimePlugin with Kernel**
+**Prompt 18: Register TimePlugin with Kernel**
 ```
 Update App.java to:
 - Create an instance of TimePlugin using KernelPluginFactory
 - Register all three plugins (TimePlugin, MathPlugin, and StringPlugin) with the kernel builder
 ```
 
-**Prompt 18: Create Multiple Test Queries**
+**Prompt 19: Create Multiple Test Queries**
 ```
 Replace the single query with an array of test queries:
 - "What time is it right now?"
@@ -249,12 +254,12 @@ Loop through each query, add it to chat history, get the AI response with functi
 
 ---
 
-**Prompt 19: Add System Prompt**
+**Prompt 20: Add System Prompt**
 ```
 Update the chat history creation to include a system message that instructs the AI to be professional and succinct. Add the system message immediately after creating the ChatHistory object and before adding any user messages.
 ```
 
-**Prompt 20: Add Error Handling**
+**Prompt 21: Add Error Handling**
 ```
 Wrap the query loop and individual queries in try-catch blocks to handle any errors gracefully and display user-friendly error messages
 ```
